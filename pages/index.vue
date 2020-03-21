@@ -12,7 +12,7 @@
       </div>
     </div>
     <div>
-      <nuxt-link to='/cart'>Go Cart</nuxt-link>
+      <nuxt-link :to="{ name: 'cart'}">Go Cart</nuxt-link>
     </div>
   </div>
 </template>
