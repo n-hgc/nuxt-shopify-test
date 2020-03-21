@@ -21,6 +21,9 @@ export default {
   mounted () {
     new Promise((resolve, reject) => {
       console.log(this.$store.state)
+      setTimeout(() => {
+        console.log('P3' + this.$store.state.checkoutId)
+      }, 500)
       if (!this.$store.state.checkoutId || !this.$store.getters.getCheckoutUrl) {
         client.checkout.create().then((checkout) => {
           this.$store.commit('updateCheckoutId', checkout.id)
