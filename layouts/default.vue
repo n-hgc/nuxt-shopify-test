@@ -19,18 +19,22 @@ export default {
   created () {
   },
   mounted () {
-    console.log('call')
-    if (!this.$store.state.checkoutId) {
-      client.checkout.create().then((checkout) => {
-        this.$store.commit('updateCheckoutId', checkout.id)
-        this.$store.commit('updateCheckoutUrl', checkout.webUrl)
-        console.log('P1' + this.$store.state.checkoutId)
-        console.log('P1' + checkout.id)
+    new Promise((resolve, reject) => {
+      if (!this.$store.state.checkoutId) {
+        client.checkout.create().then((checkout) => {
+          this.$store.commit('updateCheckoutId', checkout.id)
+          this.$store.commit('updateCheckoutUrl', checkout.webUrl)
+          console.log('P1')
+          resolve(this.$store.getters.getCheckoutId)
+        })
+      } else {
+        console.log('P2' + this.$store.state.checkoutId)
+        resolve(this.$store.getters.getCheckoutId)
+      }
+    }).then((checkoutId) => {
+      client.checkout.fetch(checkoutId).then((checkout) => {
+        console.log(checkout.lineItems)
       })
-    } else {
-      console.log('P2' + this.$store.state.checkoutId)
-    }
-    client.checkout.fetch(this.$store.state.checkoutId).then((checkout) => {
     })
   },
   computed: {}

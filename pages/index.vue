@@ -49,7 +49,6 @@ export default {
           }
         }
       })
-    console.log('index' + this.$store.state.checkoutId)
   },
   computed: {}
 }
