@@ -14,7 +14,6 @@ const config = getConfigForKeys([
 ])
 
 const client = createClient(config)
-console.log(this.$store.state.checkoutId)
 
 export default {
   created () {
