@@ -22,19 +22,19 @@ export default {
     new Promise((resolve, reject) => {
       console.log(this.$store.state)
       setTimeout(() => {
+        if (!this.$store.state.checkoutId || !this.$store.getters.getCheckoutUrl) {
+          client.checkout.create().then((checkout) => {
+            this.$store.commit('updateCheckoutId', checkout.id)
+            this.$store.commit('updateCheckoutUrl', checkout.webUrl)
+            console.log('P1')
+            resolve(this.$store.getters.getCheckoutId)
+          })
+        } else {
+          console.log('P2' + this.$store.state.checkoutId)
+          resolve(this.$store.getters.getCheckoutId)
+        }
         console.log('P3' + this.$store.state.checkoutId)
       }, 500)
-      if (!this.$store.state.checkoutId || !this.$store.getters.getCheckoutUrl) {
-        client.checkout.create().then((checkout) => {
-          this.$store.commit('updateCheckoutId', checkout.id)
-          this.$store.commit('updateCheckoutUrl', checkout.webUrl)
-          console.log('P1')
-          resolve(this.$store.getters.getCheckoutId)
-        })
-      } else {
-        console.log('P2' + this.$store.state.checkoutId)
-        resolve(this.$store.getters.getCheckoutId)
-      }
     }).then((checkoutId) => {
       client.checkout.fetch(checkoutId).then((checkout) => {
         console.log(checkout.lineItems)
