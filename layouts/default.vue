@@ -20,7 +20,8 @@ export default {
   },
   mounted () {
     new Promise((resolve, reject) => {
-      if (!this.$store.state.checkoutId) {
+      console.log(this.$store.state)
+      if (!this.$store.state.checkoutId || !this.$store.getters.getCheckoutUrl) {
         client.checkout.create().then((checkout) => {
           this.$store.commit('updateCheckoutId', checkout.id)
           this.$store.commit('updateCheckoutUrl', checkout.webUrl)
