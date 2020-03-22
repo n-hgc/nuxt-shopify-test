@@ -10,7 +10,9 @@
         </div>
         <input :id="variant.id" v-model="pickedProduct" type="radio" :value="variant.id">
       </div>
-      <button @click="addCart">Add Cart</button>
+      <button @click="addCart">
+        Add Cart
+      </button>
       <p>{{ checkoutState }}</p>
       <p>{{ pickedProduct }}</p>
     </div>
@@ -63,15 +65,16 @@ export default {
         this.checkoutState = 'done'
         client.checkout.addLineItems(checkoutId, lineItemToAdd)
           .then((checkout) => {
-            this.$store.commit('addCart', checkout.lineItems[0])
-            console.log(this.$store.state.productCartList)
+            const index = checkout.lineItems.findIndex((obj) => {
+              return obj.variant.id === lineItemToAdd.variantId
+            })
+            this.$store.commit('addCart', checkout.lineItems[index])
             setTimeout(() => {
               this.checkoutState = 'stay'
             }, 1000)
           })
           .catch(error => console.log(error))
       }
-      console.log(lineItemToAdd)
     }
   }
 }

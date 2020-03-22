@@ -30,10 +30,15 @@ export const mutations = {
       state.productCartList[productIndex].quantity += 1
     }
   },
-  removeCart (state, product) {
-    // TODO
+  updateCart (state, lineItem) {
+    const productIndex = state.productCartList.findIndex((obj) => {
+      return obj.variantId === lineItem.variant.id
+    })
+    if (productIndex !== -1) {
+      state.productCartList[productIndex].quantity = lineItem.quantity
+    }
   },
-  updateCartList (state, products) {
+  resetCartList (state) {
     state.productCartList.length = 0
   },
   updateCheckoutId (state, id) {
